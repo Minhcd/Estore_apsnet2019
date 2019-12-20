@@ -1,0 +1,79 @@
+﻿@model IEnumerable<EStore.Models.SanPham>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="outer-w3-agile mt-3">
+    <h4 class="tittle-w3-agileits mb-4">Danh sách sản phẩm</h4>
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.TenSp)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.MoTa)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.DonGia)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Hinh)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Hinh2)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Hinh3)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.GiaCu)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.SpHot)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.TenSp)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.MoTa)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.DonGia)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.Hinh)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.Hinh2)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.Hinh3)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.GiaCu)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.SpHot)
+                </td>
+                <td scope="row">
+                    <a asp-action="Edit" asp-route-id="@item.MaSp" class="btn btn-success">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.MaSp" class="btn btn-info">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MaSp" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+</div>

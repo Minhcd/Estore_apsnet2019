@@ -1,0 +1,73 @@
+﻿@model IEnumerable<EStore.Models.KhachHang>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="outer-w3-agile mt-3">
+    <h4 class="tittle-w3-agileits mb-4">Danh sách nhân viên</h4>
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+    </p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.MatKhau)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.HoTen)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.GioiTinh)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.NgaySinh)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.DiaChi)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.DienThoai)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.MatKhau)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.HoTen)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.GioiTinh)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.NgaySinh)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.DiaChi)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.DienThoai)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MaKh" class="btn btn-success">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.MaKh" class="btn btn-info">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MaKh" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+</div>

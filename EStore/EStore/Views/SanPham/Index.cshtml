@@ -1,0 +1,210 @@
+﻿@model IEnumerable<EStore.Models.SanPham>
+@{
+    ViewData["Title"] = "Indexleft";
+    Layout = "~/Views/Shared/_Frontend.cshtml";
+    string loai = "Tất cả Sản phẩm";
+    if (ViewBag.Loai != null)
+    {
+        loai = (ViewBag.Loai as Loai).TenLoai;
+    }
+}
+<script>function myFunction() {
+        alert("Sản phẩm tạm hết hàng!");
+    }</script>
+@section metasocials{
+    <meta property="fb:app_id" content="443695919745450" />
+    <meta property="og:url" content="https://localhost:44323/san-pham/@loai.ToUrlFriendly()" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="@loai" />
+    <meta property="og:description" content="Nhà phân phối Latop chính hãng - Luôn cập nhật công nghệ mới nhất. Sự lựa chọn hoàn hảo dành cho bạn." />
+    <meta property="og:image" content="https://localhost:44323/images/banners/banner-1.jpg" />
+}
+
+<div id="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- breadcrumb-->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                        <li aria-current="page" class="breadcrumb-item active">Sản phẩm</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <!--
+                *** MENUS AND FILTERS ***
+                _________________________________________________________
+                -->
+                <div class="card sidebar-menu mb-4">
+                    <div class="card-header">
+                        <h3 class="h4 card-title"><i class="fa fa-list"></i> &nbsp;&nbsp;Danh mục</h3>
+                    </div>
+                    @{
+                        EStoreContext db = new EStoreContext();
+                        var dsLoai = db.Loai
+                            .Where(p => p.MoTa == "0")
+                            .ToList();
+                        var dsLoai1 = db.Loai
+                            .Where(p => p.MoTa == "1")
+                            .ToList();
+                    }
+                    <div class="card-body">
+                        <ul class="nav nav-pills flex-column category-menu">
+                            <li>
+                                <a class="nav-link active">Laptop <span class="badge badge-light"></span></a>
+                                <ul class="list-unstyled">
+                                    @foreach (var item in dsLoai)
+                                    {
+                                        var sl1 = db.SanPham.Where(p => p.MaLoai == item.MaLoai).Count();
+                                        <li class="nav-item">
+                                            <a asp-action="Index" asp-route-loai="@item.TenLoai.ToUrlFriendly()" asp-controller="SanPham">
+                                                @item.TenLoai <span>(@sl1)</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="nav-link active">Loa & Tai nghe <span class="badge badge-light"></span></a>
+                                <ul class="list-unstyled">
+                                    @foreach (var item in dsLoai1)
+                                    {
+                                        var sl2 = db.SanPham.Where(p => p.MaLoai == item.MaLoai).Count();
+                                        <li class="nav-item ">
+                                            <a asp-action="Index" asp-route-loai="@item.TenLoai.ToUrlFriendly()" asp-controller="SanPham">
+                                                @item.TenLoai <span>(@sl2)</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- *** MENUS AND FILTERS END ***-->
+            </div>
+            <div class="col-lg-9">
+                <div class="box info-bar">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-4 products-showing">Hiển thị <strong>12</strong> trên <strong>25</strong> sản phẩm</div>
+                        <div class="col-md-12 col-lg-7 products-number-sort">
+                            <div class="products-number"></div>
+                            <style>
+                                #MyForm {
+                                    display: none;
+                                    width: 300px;
+                                    border: 1px solid #ccc;
+                                    padding: 24px;
+                                    background: #ececec;
+                                }
+                            </style>
+                            <script>
+                                $(document).ready(function () {
+                                    $('#Mybtn').click(function () {
+                                        $('#MyForm').toggle(500);
+                                    });
+                                });
+                            </script>
+                            <button id="Mybtn" class="btn btn-primary">Hiện bộ lọc</button>
+                            <form id="MyForm">
+
+                                <div class="products-sort-by mt-2 mt-lg-0">
+                                    Giá cả
+                                    <select name="mucgia" class="form-control">
+                                        <option value="tatca">Tất cả</option>
+                                        <option value="10000000">Dưới 10.000.000 đồng</option>
+                                        <option value="30000000">10.000.000 - 30.000.000 đồng</option>
+                                        <option value="50000000">30.000.000 - 50.000.000 đồng</option>
+                                        <option value="50000001">Trên 50.000.000 đồng</option>
+                                    </select>
+                                </div>
+
+                                <div class="products-sort-by mt-2 mt-lg-0">
+                                    Sắp xếp
+                                    <select name="sapxep" class="form-control">
+                                        <option value="tatca">...</option>
+                                        <option value="tang">Giá tăng dần</option>
+                                        <option value="giam">Giá giảm dần</option>
+                                    </select>
+                                </div>
+
+                                <div class="products-sort-by mt-lg-2">
+                                    <button class="btn btn-primary" id="submit-filter">Lọc sản phẩm</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row products">
+                    @foreach (var item in Model)
+                    {
+
+                        EStoreContext db1 = new EStoreContext();
+                        var Sl = db1.KhoHang.Where(p => p.MaSp == item.MaSp).ToList();
+                        @foreach (var item1 in Sl)
+                        {
+                            if (item1.SoLuong == 0)
+                            {
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="product">
+                                        <div class="flip-container">
+                                            <div class="flipper">
+                                                <div class="front"><a href="/@loai.ToUrlFriendly()/@item.TenSpSeoUrl"><img src="~/images/products/@item.Hinh" alt="" class="img-fluid"></a></div>
+                                                <div class="back"><a href="/@loai.ToUrlFriendly()/@item.TenSpSeoUrl"><img src="~/images/products/@item.Hinh2" alt="" class="img-fluid"></a></div>
+                                            </div>
+                                        </div><a href="detail.html" class="invisible"><img src="~/images/products/@item.Hinh" alt="" class="img-fluid"></a>
+                                        <div class="text">
+                                            <h3><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-url="@item.TenSpSeoUrl">@item.TenSp</a></h3>
+                                            <p class="price">
+                                                <del>@item.GiaCu.Value.ToString("#,##0") đ </del> @item.DonGia.Value.ToString("#,##0") đ
+                                            </p>
+                                            <p class="buttons"><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-url="@item.TenSpSeoUrl" asp-route-loai="@loai.ToUrlFriendly()" class="btn btn-outline-secondary">Chi tiết</a><a onclick="myFunction()" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ</a></p>
+                                        </div>
+                                        <div class="ribbon sale">
+                                            <div class="theribbon">TẠM HẾT HÀNG</div>
+                                            <div class="ribbon-background"></div>
+                                        </div><!-- /.text-->
+                                    </div>
+                                    <!-- /.product            -->
+                                </div>
+                            }
+
+                            else
+                            {
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="product">
+                                        <div class="flip-container">
+                                            <div class="flipper">
+                                                <div class="front"><a href="/@loai.ToUrlFriendly()/@item.TenSpSeoUrl"><img src="~/images/products/@item.Hinh" alt="" class="img-fluid"></a></div>
+                                                <div class="back"><a href="/@loai.ToUrlFriendly()/@item.TenSpSeoUrl"><img src="~/images/products/@item.Hinh2" alt="" class="img-fluid"></a></div>
+                                            </div>
+                                        </div><a href="detail.html" class="invisible"><img src="~/images/products/@item.Hinh" alt="" class="img-fluid"></a>
+                                        <div class="text">
+                                            <h3><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-id="@item.MaSp">@item.TenSp</a></h3>
+                                            <p class="price">
+                                                <del>@item.GiaCu.Value.ToString("#,##0") đ </del> @item.DonGia.Value.ToString("#,##0") đ
+                                            </p>
+                                            <p class="buttons"><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-url="@item.TenSpSeoUrl" asp-route-loai="@loai.ToUrlFriendly()" class="btn btn-outline-secondary">Chi tiết</a> <a asp-action="AddToCart" asp-controller="GioHang" asp-route-mahh="@item.MaSp" asp-route-sl="1" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ</a></p>
+                                        </div>
+                                        <!-- /.text-->
+                                    </div>
+                                    <!-- /.product            -->
+                                </div>
+                            }
+                        }
+
+                    }
+                    <!-- /.products-->
+                </div>
+                <nav class="justify-content-center d-flex">
+                    <ul class="page-item">
+                        @await this.Component.InvokeAsync("Pager", new { pagingList = this.Model, @class = "page-item" })
+                    </ul>
+                </nav>
+            </div>
+            <!-- /.col-lg-9-->
+        </div>
+    </div>
+</div>

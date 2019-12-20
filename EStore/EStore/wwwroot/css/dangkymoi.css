@@ -1,0 +1,38 @@
+﻿* {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+.baotodangkythanhvienmoi button.btn.btn-danger {
+    width: 45%;
+    height: 50px;
+}
+
+.baotodangkythanhvienmoi input.btn.btn-success {
+    width: 45%;
+    height: 50px;
+    margin-left: 5%;
+}
+
+.baotodangkythanhvienmoi input.btn.btn-default {
+    width: 210px;
+    background: #3cff3c;
+}
+
+.baotodangkythanhvienmoi label.control-label {
+    font-weight: 500;
+    font-size: 18px;
+    color: #080875;
+}
+
+.baotodangkythanhvienmoi {
+    padding: 0 25%;
+}
+
+    .baotodangkythanhvienmoi h2 {
+        text-align: center;
+        color: #ff8080;
+        font-weight: 500;
+        font-size: 35px;
+    }

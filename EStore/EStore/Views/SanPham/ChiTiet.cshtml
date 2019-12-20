@@ -1,0 +1,315 @@
+﻿@model EStore.Models.SanPham
+@{
+    ViewData["Title"] = "ChiTiet";
+    Layout = "~/Views/Shared/_Frontend.cshtml";
+    ViewData["Title"] = "Indexleft";
+    Layout = "~/Views/Shared/_Frontend.cshtml";
+    string loai = "Tất cả Sản phẩm";
+    if (ViewBag.Loai != null)
+    {
+        loai = (ViewBag.Loai as Loai).TenLoai;
+    }
+}
+
+@section metasocials{
+    <meta property="fb:app_id" content="443695919745450" />
+    <meta property="og:url" content="https://localhost:44323/@loai.ToUrlFriendly()/@Model.TenSpSeoUrl" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="@Model.TenSp" />
+    <meta property="og:description" content="@Model.MoTa" />
+    <meta property="og:image" content="https://localhost:44323/images/products/@Model.Hinh" />
+    <meta name="keywords" content="mua @Model.TenSp, mua online @Model.TenSp, @Model.TenSp">
+}
+
+<script>
+    function myFunction() {
+        alert("Sản phẩm tạm hết hàng!");
+    }
+
+    function myFunction1() {
+        alert("Bạn cần đăng nhập để đánh dấu sản phẩm!");
+    }</script>
+<div id="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- breadcrumb-->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a href="#">Sản phẩm</a></li>
+                        <li aria-current="page" class="breadcrumb-item active">@Model.TenSp</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <!--
+                *** MENUS AND FILTERS ***
+                _________________________________________________________
+                -->
+                <div class="card sidebar-menu mb-4">
+                    <div class="card-header">
+                        <h3 class="h4 card-title"><i class="fa fa-list"></i>&nbsp;&nbsp;Danh mục</h3>
+                    </div>
+                    @{
+                        EStoreContext db = new EStoreContext();
+                        var dsLoai = db.Loai.Where(p => p.MoTa == "0").ToList();
+                        var dsLoai1 = db.Loai.Where(p => p.MoTa == "1").ToList();
+
+                    }
+                    <div class="card-body">
+                        <ul class="nav nav-pills flex-column category-menu">
+                            <li>
+                                <a class="nav-link active">Trang Điểm <span class="badge badge-light"></span></a>
+                                <ul class="list-unstyled">
+                                    @foreach (var item in dsLoai)
+                                    {
+                                        var sl1 = db.SanPham.Where(p => p.MaLoai == item.MaLoai).Count();
+                                        <li class="nav-item">
+                                            <a asp-action="Index" asp-route-loai="@item.TenLoai.ToUrlFriendly()" asp-controller="SanPham">
+                                                @item.TenLoai  <span>(@sl1)</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="nav-link active">Chăm sóc da <span class="badge badge-light"></span></a>
+                                <ul class="list-unstyled">
+                                    @foreach (var item in dsLoai1)
+                                    {
+                                        var sl2 = db.SanPham.Where(p => p.MaLoai == item.MaLoai).Count();
+                                        <li class="nav-item ">
+                                            <a asp-action="Index" asp-route-loai="@item.TenLoai.ToUrlFriendly()" asp-controller="SanPham">
+                                                @item.TenLoai  <span>(@sl2)</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- *** MENUS AND FILTERS END ***-->
+                <div class="banner"><a href="#"><img src="~/Hinh/beauty/sale2.jpg" alt="sales 2014" class="img-fluid"></a></div>
+                <div class="banner"><a href="#"><img src="~/Hinh/beauty/sale.jpg" alt="sales 2014" class="img-fluid"></a></div>
+            </div>
+            <div class="col-lg-9">
+                <div id="productMain" class="row">
+                    @{
+
+
+                        EStoreContext db2 = new EStoreContext();
+                        var Sl = db2.KhoHang.Where(p => p.MaSp == Model.MaSp).ToList();
+                        foreach (var item1 in Sl)
+                        {
+                            if (item1.SoLuong == 0)
+                            {
+                                <div class="col-md-6">
+                                    <div data-slider-id="1" class="owl-carousel shop-detail-carousel">
+                                        <div class="item"> <img src="~/images/products/@Model.Hinh" alt="" class="img-fluid"></div>
+                                        <div class="item"> <img src="~/images/products/@Model.Hinh2" alt="" class="img-fluid"></div>
+                                        <div class="item"> <img src="~/images/products/@Model.Hinh" alt="" class="img-fluid"></div>
+                                    </div>
+                                    <div class="ribbon sale">
+                                        <div class="theribbon">TẠM HẾT HÀNG</div>
+                                        <div class="ribbon-background"></div>
+                                    </div>
+                                    <br />
+                                    <div data-slider-id="1" class="owl-thumbs">
+                                        <button class="owl-thumb-item"><img src="~/images/products/@Model.Hinh" alt="" class="img-fluid"></button>
+                                        <button class="owl-thumb-item"><img src="~/images/products/@Model.Hinh2" alt="" class="img-fluid"></button>
+                                        <button class="owl-thumb-item"><img src="~/images/products/@Model.Hinh" alt="" class="img-fluid"></button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="box">
+                                        <h2 class="text-center">@Model.TenSp</h2>
+                                        <p class="goToDescription"><a href="#details" class="scroll-to">Xem đánh giá</a></p>
+                                        <p class="price"><del style="font-size:22px; color:gray">@Model.GiaCu.Value.ToString("#,##0") đ </del>&nbsp;@Model.DonGia.Value.ToString("#,##0") đ</p>
+                                        <p class="text-center buttons">
+                                            <a onclick="myFunction()" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                                            @if (Context.Session.Get<KhachHang>("TaiKhoan") != null)
+                                            {
+                                                KhachHang kh = Context.Session.Get<KhachHang>("TaiKhoan");
+                                                var ds = db.YeuThich.Where(p => p.MaSp == Model.MaSp && p.MaKh == kh.MaKh).ToList();
+
+                                                @if (ds.Count() != 0)
+                                                {
+                                                    <a asp-action="boYT" asp-controller="YeuThich" asp-route-masp="@Model.MaSp" class="btn btn-outline-primary"><i class="fa fa-heart"></i>Bỏ Yêu thích</a>
+
+                                                }
+                                                else
+                                                {
+                                                    <a asp-action="themYT" asp-controller="YeuThich" asp-route-masp="@Model.MaSp" asp-route-makh="@kh.MaKh" class="btn btn-outline-primary"><i class="fa fa-heart"></i> Yêu thích</a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a href="#" onclick="myFunction1()" class="btn btn-outline-primary"><i class="fa fa-heart"></i> Yêu thích</a>
+
+                                            }
+                                        </p>
+                                    </div>
+                                    <div class="box">
+                                        @if (Context.Session.Get<KhachHang>("TaiKhoan") != null)
+                                        {
+                                            KhachHang kh = Context.Session.Get<KhachHang>("TaiKhoan");
+                                            <form asp-action="BinhLuan" asp-controller="SanPham" method='post'>
+                                                <div>
+                                                    <input type="hidden" name="urls" value="@Model.TenSpSeoUrl" class="form-control" />
+                                                    <input type="hidden" name="loais" value="@loai.ToUrlFriendly()" class="form-control" />
+                                                    <input type="hidden" name="makh" value="@kh.MaKh" class="form-control" />
+                                                    <input type="hidden" name="hoten" value="@kh.HoTen" class="form-control" />
+                                                    <input type="hidden" name="email" value="@kh.Email" class="form-control" />
+                                                    <input type="hidden" name="masp" value="@Model.MaSp" class="form-control" />
+                                                    <textarea name="noidung" cols='48' rows='4' required> </textarea>
+                                                    <p class="text-right buttons"><input class="btn btn-primary" type='submit' name='danhgia' value='Đánh giá sản phẩm'></p>
+                                                </div>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-danger" style="text-align:center"> <a asp-controller="DangNhap">Bạn cần đăng nhập để đánh giá sản phẩm. </a></div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-6">
+                                    <div data-slider-id="1" class="owl-carousel shop-detail-carousel">
+                                        <div class="item"> <img src="~/images/products/@Model.Hinh" alt="" class="img-fluid"></div>
+                                        <div class="item"> <img src="~/images/products/@Model.Hinh2" alt="" class="img-fluid"></div>
+                                        <div class="item"> <img src="~/images/products/@Model.Hinh" alt="" class="img-fluid"></div>
+                                    </div>
+                                    <!-- /.ribbon-->
+                                    <br />
+                                    <div data-slider-id="1" class="owl-thumbs">
+                                        <button class="owl-thumb-item"><img src="~/images/products/@Model.Hinh" alt="" class="img-fluid"></button>
+                                        <button class="owl-thumb-item"><img src="~/images/products/@Model.Hinh2" alt="" class="img-fluid"></button>
+                                        <button class="owl-thumb-item"><img src="~/images/products/@Model.Hinh" alt="" class="img-fluid"></button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="box">
+                                        <h2 class="text-center">@Model.TenSp</h2>
+                                        <p class="goToDescription"><a href="#details" class="scroll-to">Xem đánh giá</a></p>
+                                        <p class="price"><del style="font-size:22px; color:gray">@Model.GiaCu.Value.ToString("#,##0") đ </del>&nbsp;@Model.DonGia.Value.ToString("#,##0") đ</p>
+                                        <p class="text-center buttons">
+                                            <a asp-action="AddToCart" asp-controller="GioHang" asp-route-mahh="@Model.MaSp" asp-route-sl="1" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                                            @if (Context.Session.Get<KhachHang>("TaiKhoan") != null)
+                                            {
+                                                KhachHang kh = Context.Session.Get<KhachHang>("TaiKhoan");
+                                                var ds = db.YeuThich.Where(p => p.MaSp == Model.MaSp && p.MaKh == kh.MaKh).ToList();
+
+                                                @if (ds.Count() != 0)
+                                                {
+                                                    <a asp-action="boYT" asp-controller="YeuThich" asp-route-masp="@Model.MaSp" class="btn btn-outline-primary"><i class="fa fa-heart"></i>Bỏ Yêu thích</a>
+
+                                                }
+                                                else
+                                                {
+                                                    <a asp-action="themYT" asp-controller="YeuThich" asp-route-masp="@Model.MaSp" asp-route-makh="@kh.MaKh" class="btn btn-outline-primary"><i class="fa fa-heart"></i> Yêu thích</a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a href="#" onclick="myFunction1()" class="btn btn-outline-primary"><i class="fa fa-heart"></i> Yêu thích</a>
+
+                                            }
+                                        </p>
+                                    </div>
+                                    <div class="box">
+                                        @if (Context.Session.Get<KhachHang>("TaiKhoan") != null)
+                                        {
+                                            KhachHang kh = Context.Session.Get<KhachHang>("TaiKhoan");
+                                            <form asp-action="BinhLuan" asp-controller="SanPham" method='post'>
+                                                <div>
+                                                    <input type="hidden" name="urls" value="@Model.TenSpSeoUrl" class="form-control" />
+                                                    <input type="hidden" name="loais" value="@loai.ToUrlFriendly()" class="form-control" />
+                                                    <input type="hidden" name="makh" value="@kh.MaKh" class="form-control" />
+                                                    <input type="hidden" name="hoten" value="@kh.HoTen" class="form-control" />
+                                                    <input type="hidden" name="email" value="@kh.Email" class="form-control" />
+                                                    <input type="hidden" name="masp" value="@Model.MaSp" class="form-control" />
+                                                    <textarea name="noidung" cols='48' rows='4'> </textarea>
+                                                    <p class="text-right buttons"><input class="btn btn-primary" type='submit' name='danhgia' value='Đánh giá sản phẩm'></p>
+                                                </div>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-danger" style="text-align:center"> <a asp-controller="DangNhap">Bạn cần đăng nhập để đánh giá sản phẩm. </a></div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+
+                        }
+
+
+
+                    }
+                    <div id="details" class="box">
+                        <p></p>
+                        <h4><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Thông tin sản phẩm</h4>
+                        <p>@Model.MoTa</p>
+                        <hr>
+                        <div class="sharethis-inline-share-buttons"></div>
+                    </div>
+                    @{
+
+                        EStoreContext db1 = new EStoreContext();
+                        var dsbl = db1.BinhLuan.Where(p => p.MaSp == Model.MaSp).OrderByDescending(p => p.NgayBl).ToList();
+                        int dem = db1.BinhLuan.Where(p => p.MaSp == Model.MaSp).Count();
+
+                        if (dsbl.Count() > 0)
+                        {
+                            <div id="details" class="box">
+                                <h4><i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp;Đánh giá của khách hàng (@dem) </h4>
+                                <p>@Model.MoTa</p>
+                                <div class="scroll-rating">
+                                    @foreach (var item in dsbl)
+                                    {
+                                        <div class="nhanxet">
+                                            <p>
+                                                <a><b style="color: #084B8A; font-family: Courier New", Courier, monospace">@item.HoTen&nbsp;</b></a>
+                                                <i class="posted" style="color:#a3a375; font-size:14px"><i class="fa fa-clock-o"></i>@item.NgayBl</i>
+                                            </p>
+                                            <p>@item.NoiDung</p>
+                                        </div>
+                                    }
+                                </div>
+                                <hr>
+                                <div class="social">
+                                    <h4>Chia sẻ</h4>
+                                    <p><a href="#" class="external facebook"><i class="fa fa-facebook"></i></a><a href="#" class="external gplus"><i class="fa fa-google-plus"></i></a><a href="#" class="external twitter"><i class="fa fa-twitter"></i></a><a href="#" class="email"><i class="fa fa-envelope"></i></a></p>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="details" class="box">
+                                <h4><i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp;Đánh giá của khách hàng (0) </h4>
+                                <p>@Model.MoTa</p>
+                                <div class="scroll-rating">
+                                    <div class="nhanxet">
+                                        <p class="text-center" style="margin-top:120px">Chưa có nhận xét nào !</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="social">
+                                    <h4>Chia sẻ</h4>
+                                    <p><a href="#" class="external facebook"><i class="fa fa-facebook"></i></a><a href="#" class="external gplus"><i class="fa fa-google-plus"></i></a><a href="#" class="external twitter"><i class="fa fa-twitter"></i></a><a href="#" class="email"><i class="fa fa-envelope"></i></a></p>
+                                </div>
+                            </div>
+                        }
+
+                    }
+
+                </div>
+            </div>
+            <!-- /.col-md-9-->
+        </div>
+    </div>
+</div>

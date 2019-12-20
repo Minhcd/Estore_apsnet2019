@@ -1,0 +1,79 @@
+﻿@model IEnumerable<EStore.Models.HoaDon>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="outer-w3-agile mt-3">
+     <h4 class="tittle-w3-agileits mb-4">Danh sách hóa đơn</h4>
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+    </p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.NgayDat)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.NgayGiao)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.HoTen)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.DiaChi)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.GhiChu)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.DienThoai)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.TongTien)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.MaTrangThaiNavigation)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.NgayDat)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.NgayGiao)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.HoTen)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.DiaChi)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.GhiChu)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.DienThoai)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.TongTien)
+                </td>
+                <td scope="row">
+                    <a asp-action="ChangeStatus" asp-route-id="@item.MaHd" class="btn-active"> @Html.Raw(item.MaTrangThai == 0 ? "<strong>Chưa Duyệt</strong>" : "Đã Duyệt")</a>
+                </td>
+                <td scope="row">
+                    <a asp-action="Edit" asp-route-id="@item.MaHd" class="btn btn-success">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.MaHd" class="btn btn-info">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.MaHd" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,178 @@
+﻿@model List<EStore.Models.CartItem>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Frontend.cshtml";
+    string loai = "Tất cả Sản phẩm";
+    string loai1 = "Apple";
+    if (ViewBag.Loai != null)
+    {
+        loai = (ViewBag.Loai as Loai).TenLoai;
+    }
+}
+
+<div id="content">
+    @{
+        double tongtien = 0;
+    }
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- breadcrumb-->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                        <li aria-current="page" class="breadcrumb-item active">Giỏ hàng</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div id="basket" class="col-lg-9">
+                <div class="box">
+                    <h1>Giỏ Hàng</h1>
+
+
+                    @if (Context.Session.Get<List<CartItem>>("GioHang") != null)
+                    {
+                        List<CartItem> GioHang = Context.Session.Get<List<CartItem>>("GioHang");
+                        int dem = 0;
+                        @foreach (var item in GioHang)
+                        {
+                            dem = dem + item.SoLuong;
+                        }
+                        <p class="text-muted">Bạn có @dem sản phẩm trong giỏ hàng.</p>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Sản phẩm</th>
+                                        <th>Số lượng</th>
+                                        <th>Đơn giá</th>
+                                        <th colspan="2">Tổng cộng</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                @foreach (var item in Model)
+                                {
+                                    <form asp-action="Update" asp-controller="GioHang" method="post">
+                                        <tbody>
+                                            <tr>
+                                                <input type="hidden" name="masua" value="@item.MaHh" />
+                                                <td><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-url="@item.TenSpSeoUrl" asp-route-loai="@loai.ToUrlFriendly()"><img src="~/images/products/@item.Hinh" alt=""></a></td>
+                                                <td><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-url="@item.TenSpSeoUrl" asp-route-loai="@loai.ToUrlFriendly()">@item.TenHh</a></td>
+                                                <td>
+                                                    <input type="number" name="sl" value="@item.SoLuong" min="1" class="form-control">
+                                                </td>
+                                                <td>@item.GiaBan.ToString("#,##0") đ</td>
+                                                <td>@item.ThanhTien.ToString("#,##0") đ</td>
+                                                <td><button class="btn btn-outline-secondary"><i class="fa fa-refresh"></i></button></td>
+                                                <td><a class="btn btn-outline-secondary" asp-action="Remove" asp-controller="GioHang" asp-route-maxoa="@item.MaHh">&nbsp;x&nbsp;</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </form>
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    tongtien = tongtien + item.ThanhTien;
+                                }
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="5">Tổng cộng</th>
+                                        <th colspan="2"> @tongtien.ToString("#,##0") đ</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    }
+
+                    else
+                    {
+
+                        <p class="text-muted">Bạn có 0 sản phẩm trong giỏ hàng.</p>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Sản phẩm</th>
+                                        <th>Số lượng</th>
+                                        <th>Đơn giá</th>
+                                        <th colspan="2">Tổng cộng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <form asp-action="Update" asp-controller="GioHang" method="post">
+                                        <tr style="text-align:center">
+                                            <td colspan="6"><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chưa có sản phẩm nào trong giỏ hàng<br /><br /><br /></td>
+                                        </tr>
+                                    </form>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="5">Tổng cộng</th>
+                                        <th colspan="2">0 đ</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    }
+                    <!-- /.table-responsive-->
+                    <div class="box-footer d-flex justify-content-between flex-column flex-lg-row">
+                        <div class="left"><a asp-action="Index" asp-route-loai="@loai1.ToUrlFriendly()" asp-controller="SanPham" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i> Tiếp tục mua sắm </a></div>
+                        <div class="right">
+                            <a class="btn btn-outline-secondary" asp-action="Delete" asp-controller="GioHang" onclick="return confirm('Bạn có chắc chắn muốn xóa hết giỏ hàng?')"><i class="fa fa-trash-o"></i>Xóa giỏ hàng</a>
+                            <br />
+                            <br />
+                            <a asp-action="Index" asp-controller="ThanhToan"><button type="submit" class="btn btn-primary">Thanh toán <i class="fa fa-chevron-right"></i></button></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-->
+
+            </div>
+            <!-- /.col-lg-9-->
+            <div class="col-lg-3">
+                <div id="order-summary" class="box">
+                    <div class="box-header" style="text-align:center">
+                        <h3 class="mb-0">Thông tin hóa đơn</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Tổng tiền giỏ hàng</td>
+                                    <th>@tongtien.ToString("#,##0") đ</th>
+                                </tr>
+                                <tr>
+                                    <td>Phí giao hàng</td>
+                                    <th>Miễn phí</th>
+                                </tr>
+                                <tr>
+                                    <td>Khuyến mãi</td>
+                                    <th>0 </th>
+                                </tr>
+                                <tr class="total">
+                                    <td>Tổng cộng</td>
+                                    <th>@tongtien.ToString("#,##0") đ</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header">
+                        <h4 class="mb-0">Mã khuyến mãi</h4>
+                    </div>
+                    <p class="text-muted">Nhập mã khuyến mãi để nhận giá ưu đãi!</p>
+                    <form>
+                        <div class="input-group">
+                            <input type="text" class="form-control"><span class="input-group-append">
+                                <button type="button" class="btn btn-primary"><i class="fa fa-gift"></i></button>
+                            </span>
+                        </div>
+                        <!-- /input-group-->
+                    </form>
+                </div>
+            </div>
+            <!-- /.col-md-3-->
+        </div>
+    </div>
+</div>

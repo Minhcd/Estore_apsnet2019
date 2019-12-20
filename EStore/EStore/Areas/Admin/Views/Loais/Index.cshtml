@@ -1,0 +1,49 @@
+﻿@model IEnumerable<EStore.Models.Loai>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="outer-w3-agile mt-3">
+    <h4 class="tittle-w3-agileits mb-4">Danh sách loại</h4>
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+    </p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.TenLoai)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.TenLoaiAlias)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.MoTa)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td scope="col">
+                    @Html.DisplayFor(modelItem => item.TenLoai)
+                </td>
+                <td scope="col">
+                    @Html.DisplayFor(modelItem => item.TenLoaiAlias)
+                </td>
+                <td scope="col">
+                    @Html.DisplayFor(modelItem => item.MoTa)
+                </td>
+                <td scope="col">
+                    <a asp-action="Edit" asp-route-id="@item.MaLoai" class="btn btn-success">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.MaLoai" class="btn btn-info">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MaLoai" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+</div>

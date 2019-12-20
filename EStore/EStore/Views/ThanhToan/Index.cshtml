@@ -1,0 +1,173 @@
+﻿@model List<EStore.Models.CartItem>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Frontend.cshtml";
+}
+
+
+
+<div id="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- breadcrumb-->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                        <li aria-current="page" class="breadcrumb-item active">Thanh toán bước 1</li>
+                    </ol>
+                </nav>
+            </div>
+            <div id="checkout" class="col-lg-9">
+                @{
+                    double tong = 0;
+
+                }
+
+
+                <div class="box">
+
+                    <h1>Thông tin giao hàng</h1>
+                    <div class="nav flex-column flex-md-row nav-pills text-center"><a asp-action="ThanhToan1" asp-controller="ThanhToan" class="nav-link flex-sm-fill text-sm-center active">  <i class="fa fa-map-marker">                      </i>Thông tin giao hàng</a><a asp-action="Index" asp-controller="ThanhToan" class="nav-link flex-sm-fill text-sm-center disabled"><i class="fa fa-eye">                  </i>Hóa đơn của bạn</a></div>
+                    @if (Context.Session.Get<KhachHang>("TaiKhoan") != null)
+                    {
+                        KhachHang kh = Context.Session.Get<KhachHang>("TaiKhoan");
+
+                        <div class="alert alert-info">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            * Vui lòng kiểm tra thông tin người nhận hàng. Nếu bạn có thay đổi vui lòng điển đầy đủ thông tin.
+                        </div>
+                        <form asp-action="Them" asp-controller="ThanhToan" method="post">
+                            <div class="content py-3">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="firstname">Họ tên người nhận</label>
+                                            <input name="tennn" value="@kh.HoTen" type="text" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="lastname">Số điện thoại người nhận</label>
+                                            <input name="sdtnn" value="@kh.DienThoai" type="text" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.row-->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="company">Địa chỉ người nhận</label>
+                                            <input name="diachinn" value="@kh.DiaChi" type="text" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="ghichunn">Ghi chú đơn đặt hàng</label>
+                                            <textarea name="ghichunn" class="form-control" cols='50' rows='2'> </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- /.row-->
+                                <!-- /.row-->
+                            </div>
+
+                            <div class="box-footer d-flex justify-content-between">
+                                <a asp-action="Index" asp-controller="GioHang" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i>Quay lại giỏ hàng</a>
+                                <button type="submit" class="btn btn-primary">Tiếp tục thanh toán<i class="fa fa-chevron-right"></i></button>
+                            </div>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            * Vui lòng kiểm tra thông tin người nhận hàng. Nếu bạn có thay đổi vui lòng điển đầy đủ thông tin.
+                        </div>
+                        <form asp-action="Them" asp-controller="ThanhToan" method="post">
+                            <div class="content py-3">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="firstname">Họ tên người nhận</label>
+                                            <input name="tennn" type="text" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="lastname">Số điện thoại người nhận</label>
+                                            <input name="sdtnn" type="text" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.row-->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="company">Địa chỉ người nhận</label>
+                                            <input name="diachinn" type="text" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="ghichunn">Ghi chú đơn đặt hàng</label>
+                                            <textarea name="ghichunn" class="form-control" cols='50' rows='2'> </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- /.row-->
+                                <!-- /.row-->
+                            </div>
+
+                            <div class="box-footer d-flex justify-content-between">
+                                <a asp-action="Index" asp-controller="GioHang" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i>Quay lại giỏ hàng</a>
+                                <button type="submit" class="btn btn-primary">Tiếp tục thanh toán<i class="fa fa-chevron-right"></i></button>
+                            </div>
+                        </form>
+                    }
+
+                </div>
+                <!-- /.box-->
+            </div>
+            <!-- /.col-lg-9-->
+            <div class="col-lg-3">
+                <div id="order-summary" class="card">
+                    <div class="card-header" style="text-align:center">
+                        <h3 class="mt-4 mb-4">Thông tin hóa đơn</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        tong = tong + item.ThanhTien;
+                                    }
+                                    <tr>
+                                        <td>Tổng tiền giỏ hàng</td>
+                                        <th>@tong.ToString("#,##0") đ</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Phí giao hàng</td>
+                                        <th>Miễn phí</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Khuyến mãi</td>
+                                        <th>0</th>
+                                    </tr>
+                                    <tr class="total">
+                                        <td>Tổng cộng</td>
+                                        <th>@tong.ToString("#,##0") đ</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-lg-3-->
+        </div>
+    </div>
+</div>

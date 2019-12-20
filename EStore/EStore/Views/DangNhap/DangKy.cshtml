@@ -1,0 +1,83 @@
+﻿@model EStore.Models.KhachHang
+
+@{
+    ViewData["Title"] = "DangKy";
+    Layout = "~/Views/Shared/_Frontend.cshtml";
+}
+
+<div id="content">
+    <div class="container">
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="baotodangkythanhvienmoi">
+                    <h2>Đăng ký tài khoảng mới</h2>
+                    <form asp-action="DangKy">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" required="required" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MatKhau" class="control-label"></label>
+                            <input asp-for="MatKhau" class="form-control" type="password" required="required" />
+                            <span asp-validation-for="MatKhau" class="text-danger"></span>
+                        </div>
+                        <!--<div class="form-group">
+                            <label asp-for="MaKh" class="control-label"></label>
+                            <input asp-for="MaKh" class="form-control" required="required" />
+                            <span asp-validation-for="MaKh" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="HoTen" class="control-label"></label>
+                            <input asp-for="HoTen" class="form-control" required="required" />
+                            <span asp-validation-for="HoTen" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="GioiTinh" class="control-label"></label>
+                            <input asp-for="GioiTinh" class="" style="width:20px;height:20px;transform:translateY(6px);margin:0px 10px" type="radio" value="False" checked /> Nam
+                            <input asp-for="GioiTinh" class="" style="width:20px;height:20px;transform:translateY(6px);margin:0px 10px" type="radio" value="True" /> Nữ
+                            <span asp-validation-for="GioiTinh" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="NgaySinh" class="control-label"></label>
+                            <input asp-for="NgaySinh" class="form-control" type="date" required="required" />
+                            <span asp-validation-for="NgaySinh" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DiaChi" class="control-label"></label>
+                            <input asp-for="DiaChi" class="form-control" required="required" />
+                            <span asp-validation-for="DiaChi" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DienThoai" class="control-label"></label>
+                            <input asp-for="DienThoai" class="form-control" required="required" />
+                            <span asp-validation-for="DienThoai" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="display:none">
+                            <label asp-for="HieuLuc" class="control-label"></label>
+                            <input asp-for="HieuLuc" class="form-control" />
+                            <span asp-validation-for="HieuLuc" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="display:none">
+                            <label asp-for="VaiTro" class="control-label"></label>
+                            <input asp-for="VaiTro" class="form-control" />
+                            <span asp-validation-for="VaiTro" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="RandomKey" class="control-label" style="display:none"></label>
+                            <input asp-for="RandomKey" class="form-control" type="hidden" />
+                            <span asp-validation-for="RandomKey" class="text-danger"></span>
+                        </div>-->
+                        <input type="submit" asp-action="DangKy" asp-controller="DangNhap" value="Tạo tài khoản" class="btn btn-success" />
+                        <div>
+                            <p style="font-style:italic; color:deeppink">@ViewBag.Result</p>
+                        </div>
+                    </form>
+                    <a asp-action="Index" asp-controller="Home"><button class="btn btn-danger"> Về trang chủ </button></a>
+</div>
+            </div>
+        </div>
+    </div>
+</div>

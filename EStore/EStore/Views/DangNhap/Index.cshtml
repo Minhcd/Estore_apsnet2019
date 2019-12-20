@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Frontend.cshtml";
+}
+
+@model EStore.Models.LoginViewModel
+<div id="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- breadcrumb-->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="DangNhap">Trang chủ</a></li>
+                        <li aria-current="page" class="breadcrumb-item active">Đăng nhập</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="box">
+                    <h1 style="text-align:center">Đăng nhập </h1>
+                    <p class="lead">Bạn đã có tài khoản khách hàng?</p>
+                    <p class="text-muted">
+                        Đăng nhập ngay để mua hàng, theo dõi đơn hàng, lưu
+                        danh sách sản phẩm yêu thích, đánh giá cho sản phẩm và nhận
+                        thêm nhiều ưu đãi hấp dẫn.
+                    </p>
+                    <hr>
+                    <form asp-action="DangNhap">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="email">Tài khoản</label>
+                            <input asp-for="email" id="email" type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MatKhau">Mật khẩu</label>
+                            <input asp-for="MatKhau" id="password" type="password" class="form-control" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i> Đăng nhập</button>
+                        </div>
+                        <div class="forgot">
+                            <a asp-controller="RestoreAccount" asp-action="Index">Quên mật khẩu?</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="box">
+                    <h1 style="text-align:center">Đăng kí</h1>
+                    <p class="lead">Bạn chưa có tài khoản khách hàng?</p>
+                    <p>
+                        Tạo tài khoản ngay để mua hàng, theo dõi đơn hàng, lưu
+                        danh sách sản phẩm yêu thích, đánh giá cho sản phẩm và nhận thêm
+                        nhiều ưu đãi hấp dẫn.
+                    </p>
+                    <p class="text-muted">Nếu bạn gặp khó khăn trong khi tạo tài khoản hãy <a asp-action="Contact" asp-controller="Home">Liên hệ</a> với chúng tôi. Chúng tôi luôn ở đây để hỗ trợ bạn 24/7</p>
+                    <hr>
+                    <a asp-action="DangKy" asp-controller="DangNhap">Đăng kí tại đây</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

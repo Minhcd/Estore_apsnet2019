@@ -1,0 +1,181 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+
+        #content {
+            background-color: lightblue;
+        }
+
+        .form-group select.form-control:not([size]):not([multiple]) {
+            height: 34px;
+        }
+    </style>
+    <title>ESHOP - Admin </title>
+    <!-- Meta Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Modernize Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola web design" />
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!-- //Meta Tags -->
+    <!-- Style-sheets -->
+    <!-- Bootstrap Css -->
+    <link href="~/Admin/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- Bootstrap Css -->
+    <!-- Common Css -->
+    <link href="~/Admin/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!--// Common Css -->
+    <!-- Nav Css -->
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Admin/css/style4.css">
+    <!--// Nav Css -->
+    <!-- Fontawesome Css -->
+    <link href="~/Admin/css/fontawesome-all.css" rel="stylesheet">
+    <!--// Fontawesome Css -->
+    <!--// Style-sheets -->
+    <!--web-fonts-->
+    <link href="//fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <!--//web-fonts-->
+</head>
+@{
+    EStoreContext db = new EStoreContext();
+    int c_hoadons = db.HoaDon.Where(p => p.MaTrangThai == 0).ToList().Count();
+}
+<body>
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h1>
+                    <a href="/Admin" class="fa fa-fw">Modernize</a>
+                </h1>
+                <span>M</span>
+            </div>
+            <div class="profile-bg"></div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a asp-controller="Homes" asp-action="Index">
+                        <i class="fas fa-th-large"></i>
+                        Trang chủ
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="NhanViens" asp-action="Index">
+                        <i class="fas fa-user"></i>
+                        Nhân viên
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Loais" asp-action="Index">
+                        <i class="fas fa-users"></i>
+                        Loại hàng hóa
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="SanPhams" asp-action="Index">
+                        <i class="far fa-window-restore"></i>
+                        Hàng hóa
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="HoaDons" asp-action="Index">
+                        <i class="fas fa-money-bill-alt"></i>
+                        Hóa đơn
+                        <span class="badge badge-secondary float-md-right bg-danger">@c_hoadons</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="KhachHangs" asp-action="Index">
+                        <i class="fas fa-users"></i>
+                        Khách Hàng
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="ThuongHieus" asp-action="Index">
+                        <i class="far fa-hourglass"></i>
+                        Thương Hiệu
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="Logout" asp-controller="Login">
+                        <i class="far fa-window-close"></i>
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content Holder -->
+        <div id="content">
+            <!-- top-bar -->
+            <!--// top-bar -->
+            @RenderBody()
+        </div>
+    </div>
+
+
+    <!-- Required common Js -->
+    <script src="~/Admin/js/jquery-2.2.3.min.js"></script>
+
+    <!-- //Required common Js -->
+    <!-- Sidebar-nav Js -->
+    <script>
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+    <!--// Sidebar-nav Js -->
+    <!-- dropdown nav -->
+    <script>
+        $(document).ready(function () {
+            $(".dropdown").hover(
+                function () {
+                    $('.dropdown-menu', this).stop(true, true).slideDown("fast");
+                    $(this).toggleClass('open');
+                },
+                function () {
+                    $('.dropdown-menu', this).stop(true, true).slideUp("fast");
+                    $(this).toggleClass('open');
+                }
+            );
+        });
+    </script>
+    <!-- //dropdown nav -->
+    <!-- Js for bootstrap working-->
+    <script src="~/Admin/js/bootstrap.min.js"></script>
+    <!-- //Js for bootstrap working -->
+    <script src="~/js/jquery.min.js"></script>
+
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+</body>
+
+</html>

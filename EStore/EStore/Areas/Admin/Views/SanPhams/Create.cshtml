@@ -1,0 +1,83 @@
+﻿@model EStore.Models.SanPham
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_ViewStart.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>SanPham</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MaHieu" class="control-label"></label>
+                <select asp-for="MaHieu" class ="form-control" asp-items="ViewBag.MaHieu"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TenSp" class="control-label"></label>
+                <input asp-for="TenSp" class="form-control" />
+                <span asp-validation-for="TenSp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TenAlias" class="control-label"></label>
+                <input asp-for="TenAlias" class="form-control" />
+                <span asp-validation-for="TenAlias" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaLoai" class="control-label"></label>
+                <select asp-for="MaLoai" class ="form-control" asp-items="ViewBag.MaLoai"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="MoTa" class="control-label"></label>
+                <input asp-for="MoTa" class="form-control" />
+                <span asp-validation-for="MoTa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DonGia" class="control-label"></label>
+                <input asp-for="DonGia" class="form-control" />
+                <span asp-validation-for="DonGia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hinh" class="control-label"></label>
+                <input asp-for="Hinh" class="form-control" />
+                <span asp-validation-for="Hinh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hinh2" class="control-label"></label>
+                <input asp-for="Hinh2" class="form-control" />
+                <span asp-validation-for="Hinh2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hinh3" class="control-label"></label>
+                <input asp-for="Hinh3" class="form-control" />
+                <span asp-validation-for="Hinh3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GiaCu" class="control-label"></label>
+                <input asp-for="GiaCu" class="form-control" />
+                <span asp-validation-for="GiaCu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaNcc" class="control-label"></label>
+                <select asp-for="MaNcc" class ="form-control" asp-items="ViewBag.MaNcc"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpHot" class="control-label"></label>
+                <input asp-for="SpHot" class="form-control" />
+                <span asp-validation-for="SpHot" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

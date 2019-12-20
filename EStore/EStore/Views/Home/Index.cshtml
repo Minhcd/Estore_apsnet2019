@@ -1,0 +1,274 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    string loai = "Sản phẩm hot";
+    if (ViewBag.Loai != null)
+    {
+        loai = (ViewBag.Loai as Loai).TenLoai;
+    }
+    string loai1 = "Hàng mới về ";
+}
+@model IEnumerable<EStore.Models.SanPham>
+<div id="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="main-slider" class="owl-carousel owl-theme">
+                    <div class="item"><img src="~/images/banners/banner-1.jpg" alt="" class="img-fluid"> </div>
+                    <div class="item"><img src="~/images/banners/banner-2.jpg" alt="" class="img-fluid"> </div>
+                    <div class="item"><img src="~/images/banners/banner-3.jpg" alt="" class="img-fluid"></div>
+                    <div class="item"><img src="~/images/banners/banner-4.jpg" alt="" class="img-fluid"></div>
+                </div>
+                <!-- /#main-slider-->
+            </div>
+        </div>
+    </div>
+    <!--
+    *** ADVANTAGES HOMEPAGE ***
+    _________________________________________________________
+    -->
+    <div id="advantages">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="box clickable d-flex flex-column justify-content-center mb-0 h-100">
+                        <div class="icon"><i class="fa fa-heart"></i></div>
+                        <h3 style="font-weight: bold"><a href="#">We love our customers</a></h3>
+                        <p class="mb-0">We are known to provide best possible service ever</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="box clickable d-flex flex-column justify-content-center mb-0 h-100">
+                        <div class="icon"><i class="fa fa-tags"></i></div>
+                        <h3 style="font-weight: bold"><a href="#">Best prices</a></h3>
+                        <p class="mb-0">You can check that the height of the boxes adjust when longer text like this one is used in one of them.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="box clickable d-flex flex-column justify-content-center mb-0 h-100">
+                        <div class="icon"><i class="fa fa-thumbs-up"></i></div>
+                        <h3 style="font-weight: bold"><a href="#">100% satisfaction guaranteed</a></h3>
+                        <p class="mb-0">Free returns on everything for 3 months.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row-->
+        </div>
+        <!-- /.container-->
+    </div>
+    <!-- /#advantages-->
+    <!-- *** ADVANTAGES END ***-->
+    <!--
+    *** HOT PRODUCT SLIDESHOW ***
+    _________________________________________________________
+    -->
+    <div id="hot">
+        <div class="box py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="mb-0" style="font-family: 'Asap', sans-serif; color:#ff8080">
+                            <img src="~/images/style/sphot.png" />
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @{
+            EStoreContext db = new EStoreContext();
+            var dsSP = db.SanPham
+                .Where(p => p.SpHot.ToString() == "1")
+                .ToList();
+        }
+        <div class="container">
+            <div class="product-slider owl-carousel owl-theme test">
+                @foreach (var item in dsSP)
+                {
+                    <div class="item" style="width:210px; height:330px">
+                        <div class="product">
+                            <div class="flip-container">
+                                <div class="flipper">
+                                    <div class="front"><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-url="@item.TenSpSeoUrl" asp-route-loai="@loai.ToUrlFriendly()"><img src="~/images/products/@item.Hinh" alt="" class="img-fluid"></a></div>
+                                    <div class="back"><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-url="@item.TenSpSeoUrl" asp-route-loai="@loai.ToUrlFriendly()"><img src="~/images/products/@item.Hinh2" alt="" class="img-fluid"></a></div>
+                                </div>
+                            </div><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-url="@item.TenSpSeoUrl" asp-route-loai="@loai.ToUrlFriendly()" class="invisible"><img src="~/images/products/@item.Hinh" alt="" class="img-fluid"></a>
+                            <div class="text">
+                                <h3><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-url="@item.TenSpSeoUrl" asp-route-loai="@loai.ToUrlFriendly()">@item.TenSp</a></h3>
+                                <p class="price">
+                                    <del>@item.GiaCu.Value.ToString("#,##0") đ</del> @item.DonGia.Value.ToString("#,##0") đ
+                                </p>
+                            </div>
+                            <!-- /.text-->
+                        </div>
+                        <!-- /.product-->
+                    </div>
+                }
+                <!-- /.container-->
+            </div>
+            <!-- /#hot-->
+            <!-- *** HOT END ***-->
+        </div>
+        <!--
+        *** HÀNG MỚI***
+        _________________________________________________________
+        -->
+        <div class="box py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="mb-0" style="font-family: 'Asap', sans-serif; color:#ff8080">
+                            <img src="~/images/style/hangnew.png" />
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @{
+            EStoreContext db1 = new EStoreContext();
+            var dsma = db.SanPham.Count();
+            var ds = db.SanPham
+                .Where(p => (p.MaSp <= dsma && p.MaSp >= (dsma - 24)))
+                .ToList();
+        }
+        <div class="container">
+            <div class="product-slider owl-carousel owl-theme test">
+                @foreach (var item in ds)
+                {
+
+                    <div class="item" style="width:210px; height:330px">
+                        <div class="product">
+                            <div class="flip-container">
+                                <div class="flipper">
+                                    <div class="front"><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-url="@item.TenSpSeoUrl" asp-route-loai="@loai1.ToUrlFriendly()"><img src="~/images/products/@item.Hinh" alt="" class="img-fluid"></a></div>
+                                    <div class="back"><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-url="@item.TenSpSeoUrl" asp-route-loai="@loai1.ToUrlFriendly()"><img src="~/images/products/@item.Hinh2" alt="" class="img-fluid"></a></div>
+                                </div>
+                            </div><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-url="@item.TenSpSeoUrl" asp-route-loai="@loai1.ToUrlFriendly()" class="invisible"><img src="~/images/products/@item.Hinh" alt="" class="img-fluid"></a>
+                            <div class="text">
+                                <h3><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-url="@item.TenSpSeoUrl" asp-route-loai="@loai1.ToUrlFriendly()">@item.TenSp</a></h3>
+                                <p class="price">
+                                    <del>@item.GiaCu.Value.ToString("#,##0") đ</del> @item.DonGia.Value.ToString("#,##0") đ
+                                </p>
+                            </div>
+                            <!-- /.text-->
+                        </div>
+                        <!-- /.product-->
+                    </div>
+
+                }
+                <!-- /.container-->
+            </div>
+            <!-- /#hot-->
+            <!-- *** HOT END ***-->
+        </div>
+        <!--
+        **THƯƠNG HIỆU**
+        _________________________________________________________
+        -->
+        <div class="box py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="mb-0" style="font-family: 'Asap', sans-serif; color:#ff8080">
+                            <img src="~/images/style/thuonghieu.png" />
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @{
+            EStoreContext db2 = new EStoreContext();
+            var dshieu = db.ThuongHieu
+                .Where(p => p.MaHieu <= 15)
+                .ToList();
+
+        }
+
+        <div class="container">
+            <div class="product-slider owl-carousel owl-theme test">
+                @foreach (var item in dshieu)
+                {
+                    <div class="item" style="width:210px">
+                        <div class="product">
+                            <div class="flip-container">
+                                <div class="flipper">
+                                    <div class="front"><a asp-action="Hieu" asp-controller="SanPham" asp-route-hieuurl="@item.TenHieuSeoUrl"><img src="~/images/brands/@item.Hinh" alt="" class="img-fluid"></a></div>
+                                    <div class="back"><a asp-action="Hieu" asp-controller="SanPham" asp-route-hieuurl="@item.TenHieuSeoUrl"><img src="~/images/brands/@item.Hinh" alt="" class="img-fluid"></a></div>
+                                </div>
+                            </div><a asp-action="Hieu" asp-controller="SanPham" asp-route-hieuurl="@item.TenHieuSeoUrl" class="invisible"><img src="~/images/brands/@item.Hinh" alt="" class="img-fluid"></a>
+
+                            <!-- /.text-->
+                        </div>
+                        <!-- /.product-->
+                    </div>
+                }
+                <!-- /.container-->
+            </div>
+            <!-- /#hot-->
+            <!-- *** HOT END ***-->
+        </div>
+
+        <!--
+        *** GET INSPIRED ***
+        _________________________________________________________
+        -->
+        <!--<div class="container">
+            <div class="col-md-12">
+                <div class="box slideshow">
+                    <h3>
+                        <img src="~/images/goclamdep.png" />
+                    </h3>
+
+                    <div id="get-inspired" class="owl-carousel owl-theme">
+                        <div class="item"><a asp-action="Index" asp-controller="Blog"><img src="~/Hinh/beauty/blog6.jpg" alt="Get inspired" class="img-fluid"></a></div>
+                        <div class="item"><a asp-action="Index" asp-controller="Blog"><img src="~/Hinh/beauty/blog2.jpg" alt="Get inspired" class="img-fluid"></a></div>
+                        <div class="item"><a asp-action="Index" asp-controller="Blog"><img src="~/Hinh/beauty/blog5.jpg" alt="Get inspired" class="img-fluid"></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- *** GET INSPIRED END ***
+        <!--
+        *** BLOG HOMEPAGE ***
+        _________________________________________________________
+        
+        <div class="box text-center">
+            <div class="container">
+                <div class="col-md-12">
+                    <h3 class="text-uppercase">
+                        <img src="~/images/blog.png" />
+                    </h3>
+                    <div class="item"><a asp-action="Index" asp-controller="Blog"><img src="~/Hinh/beauty/blog1.png" alt="Get inspired" class="img-fluid"></a></div>
+
+
+                </div>
+            </div>
+        </div>-->
+        <!--<div class="container">
+            <div class="col-md-12">
+                <div id="blog-homepage" class="row">
+                    <div class="col-sm-6">
+                        <div class="post">
+                            <h4><a href="post.html">Fashion now</a></h4>
+                            <p class="author-category">By <a href="#">John Slim</a> in <a href="">Fashion and style</a></p>
+                            <hr>
+                            <p class="intro">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                            <p class="read-more"><a href="post.html" class="btn btn-primary">Continue reading</a></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="post">
+                            <h4><a href="post.html">Who is who - example blog post</a></h4>
+                            <p class="author-category">By <a href="#">John Slim</a> in <a href="">About Minimal</a></p>
+                            <hr>
+                            <p class="intro">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                            <p class="read-more"><a href="post.html" class="btn btn-primary">Continue reading</a></p>
+                        </div>
+                    </div>
+                </div>
+                /#blog-homepage
+            </div>
+        </div>
+        -->
+        <!-- /.container-->
+        <!-- *** BLOG HOMEPAGE END ***-->
+    </div>
+</div>

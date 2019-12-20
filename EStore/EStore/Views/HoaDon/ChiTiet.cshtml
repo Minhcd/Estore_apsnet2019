@@ -1,0 +1,106 @@
+﻿@model IEnumerable<EStore.Models.ChiTietHd>
+@{
+    ViewData["Title"] = "ChiTiet";
+    Layout = "~/Views/Shared/_Frontend.cshtml";
+}
+
+<div id="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- breadcrumb-->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="Home">Trang chủ</a></li>
+                        <li aria-current="page" class="breadcrumb-item active">Hóa đơn của bạn</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <!--
+                *** CUSTOMER MENU ***
+                _________________________________________________________
+                -->
+                <div class="card sidebar-menu">
+                    <div class="card-header">
+                        <h3 class="h4 card-title">Khách Hàng</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul class="nav nav-pills flex-column"><a asp-action="Index" asp-controller="HoaDon" class="nav-link active"><i class="fa fa-list"></i>Hóa đơn của bạn</a><a asp-action="Index" asp-controller="YeuThich" class="nav-link"><i class="fa fa-heart"></i> Sản phẩm yêu thích</a><a asp-action="Index" asp-controller="KhachHang" class="nav-link"><i class="fa fa-user"></i>Tài khoản</a><a asp-action="DangXuat" asp-controller="DangNhap" class="nav-link"><i class="fa fa-sign-out"></i> Đăng xuất</a></ul>
+                    </div>
+                </div>
+                <!-- /.col-lg-3-->
+                <!-- *** CUSTOMER MENU END ***-->
+            </div>
+            <div id="customer-order" class="col-lg-9">
+                @if (Context.Session.Get<KhachHang>("TaiKhoan") != null)
+                {
+                    EStoreContext db = new EStoreContext();
+                    double tongcong = 0;
+
+                    <div class="box">
+                        <h1></h1>
+                        <h1>Chi tiết đơn hàng  <strong>#@ViewBag.Ma</strong></h1>
+
+                        <p class="text-muted">Nếu bạn cần hỗ trợ, xin vui lòng <a asp-action="Contact" asp-controller="Home">Liên hệ</a> với chúng tôi, Chúng tôi luôn ở đây để hỗ trợ bạn 24/7.</p>
+                        <hr>
+                        <div class="table-responsive mb-4">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Sản phẩm</th>
+                                        <th>Số lượng</th>
+                                        <th>Đơn giá</th>
+                                        <th>Tổng cộng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        SanPham sp = db.SanPham.Find(item.MaSp);
+                                        var tongtien = @item.DonGia * @item.SoLuong;
+                                        tongcong = tongcong + Convert.ToDouble(tongtien);
+                                        <tr>
+                                            <td><a href="#"><img src="~/images/products/@sp.Hinh" alt="@sp.TenSp"></a></td>
+                                            <td><a href="#">@sp.TenSp</a></td>
+                                            <td style="text-align:center">@item.SoLuong</td>
+                                            <td>@item.DonGia.Value.ToString("#,##0") đ</td>
+                                            <td>@tongtien.Value.ToString("#,##0") đ</td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="4" class="text-right">Tổng đơn hàng</th>
+                                        <th>@tongcong.ToString("#,##0") đ</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="4" class="text-right">Phí giao hàng</th>
+                                        <th>Miễn phí</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="4" class="text-right">Khuyến mãi</th>
+                                        <th>0</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="4" class="text-right">Tổng thanh toán</th>
+                                        <th>@tongcong.ToString("#,##0") đ</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive-->
+
+                    </div>
+
+                }
+                else
+                {
+                    <div class="alert alert-danger" style="text-align:center"> <a asp-action="DangNhap" asp-controller="DangNhap">Bạn cần đăng nhập để xem chi tiết đơn hàng </a></div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

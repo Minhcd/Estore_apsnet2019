@@ -1,0 +1,174 @@
+﻿@model IEnumerable<EStore.Models.SanPham>
+@{
+    ViewData["Title"] = "Indexleft";
+    Layout = "~/Views/Shared/_Frontend.cshtml";
+    string loai = "Tất cả Sản phẩm";
+    if (ViewBag.Loai != null)
+    {
+        loai = (ViewBag.Loai as Loai).TenLoai;
+    }
+}
+<script>
+    function myFunction() {
+        alert("Sản phẩm tạm hết hàng!");
+    }</script>
+<div id="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- breadcrumb-->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                        <li aria-current="page" class="breadcrumb-item active">Sản phẩm</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <!--
+                *** MENUS AND FILTERS ***
+                _________________________________________________________
+                -->
+                <div class="card sidebar-menu mb-4">
+                    <div class="card-header">
+                        <h3 class="h4 card-title"><i class="fa fa-list"></i> &nbsp;&nbsp;Danh mục</h3>
+                    </div>
+                    @{
+                        EStoreContext db = new EStoreContext();
+                        var dsLoai = db.Loai
+                            .Where(p => p.MoTa == "0")
+                            .ToList();
+                        var dsLoai1 = db.Loai
+                            .Where(p => p.MoTa == "1")
+                            .ToList();
+                    }
+                    <div class="card-body">
+                        <ul class="nav nav-pills flex-column category-menu">
+                            <li>
+                                <a class="nav-link active">Trang Điểm <span class="badge badge-light"></span></a>
+                                <ul class="list-unstyled">
+                                    @foreach (var item in dsLoai)
+                                    {
+                                        <li class="nav-item">
+                                            <a asp-action="Index" asp-route-id="@item.MaLoai" asp-controller="SanPham">
+                                                @item.TenLoai
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="nav-link active">Chăm sóc da <span class="badge badge-light"></span></a>
+                                <ul class="list-unstyled">
+                                    @foreach (var item in dsLoai1)
+                                    {
+                                        <li class="nav-item ">
+                                            <a asp-action="Index" asp-route-id="@item.MaLoai" asp-controller="SanPham">
+                                                @item.TenLoai
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- *** MENUS AND FILTERS END ***-->
+                <div class="banner"><a href="#"><img src="~/Hinh/beauty/sale2.jpg" alt="sales 2014" class="img-fluid"></a></div>
+            </div>
+            <div class="col-lg-9">
+                <div class="box info-bar">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-4 products-showing">Hiển thị <strong>12</strong> trên <strong>25</strong> sản phẩm</div>
+                        <div class="col-md-12 col-lg-7 products-number-sort">
+                            <form class="form-inline d-block d-lg-flex justify-content-between flex-column flex-md-row">
+                                <div class="products-number">
+                                    Hiển thị &nbsp;
+                                    <select name="sort-by" class="form-control">
+                                        <option>12</option>
+                                        <option>24</option>
+                                        <option>50</option>
+                                    </select><span>sản phẩm</span>
+                                </div>
+                                <div class="products-sort-by mt-2 mt-lg-0">
+                                    <strong>Sắp xếp</strong>
+                                    <select name="sort-by" class="form-control">
+                                        <option>Giá tăng dần</option>
+                                        <option>Giá giảm dần</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row products">
+                    @foreach (var item in Model)
+                    {
+
+                        EStoreContext db1 = new EStoreContext();
+                        var Sl = db1.KhoHang.Where(p => p.MaSp == item.MaSp).ToList();
+                        @foreach (var item1 in Sl)
+                        {
+                            if (item1.SoLuong == 0)
+                            {
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="product">
+                                        <div class="flip-container">
+                                            <div class="flipper">
+                                                <div class="front"><a href="detail.html"><img src="~/images/products/@item.Hinh" alt="" class="img-fluid"></a></div>
+                                                <div class="back"><a href="detail.html"><img src="~/images/products/@item.Hinh2" alt="" class="img-fluid"></a></div>
+                                            </div>
+                                        </div><a href="detail.html" class="invisible"><img src="~/images/products/@item.Hinh" alt="" class="img-fluid"></a>
+                                        <div class="text">
+                                            <h3><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-id="@item.MaSp">@item.TenSp</a></h3>
+                                            <p class="price">
+                                                <del>@item.GiaCu.Value.ToString("#,##0") đ </del> @item.DonGia.Value.ToString("#,##0") đ
+                                            </p>
+                                            <p class="buttons"><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-id="@item.MaSp" class="btn btn-outline-secondary">Chi tiết</a><a onclick="myFunction()" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ</a></p>
+                                        </div>
+                                        <div class="ribbon sale">
+                                            <div class="theribbon">TẠM HẾT HÀNG</div>
+                                            <div class="ribbon-background"></div>
+                                        </div><!-- /.text-->
+                                    </div>
+                                    <!-- /.product            -->
+                                </div>
+                            }
+
+                            else
+                            {
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="product">
+                                        <div class="flip-container">
+                                            <div class="flipper">
+                                                <div class="front"><a href="detail.html"><img src="~/images/products/@item.Hinh" alt="" class="img-fluid"></a></div>
+                                                <div class="back"><a href="detail.html"><img src="~/images/products/@item.Hinh2" alt="" class="img-fluid"></a></div>
+                                            </div>
+                                        </div><a href="detail.html" class="invisible"><img src="~/images/products/@item.Hinh" alt="" class="img-fluid"></a>
+                                        <div class="text">
+                                            <h3><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-id="@item.MaSp">@item.TenSp</a></h3>
+                                            <p class="price">
+                                                <del>@item.GiaCu.Value.ToString("#,##0") đ </del> @item.DonGia.Value.ToString("#,##0") đ
+                                            </p>
+                                            <p class="buttons"><a asp-action="ChiTiet" asp-controller="SanPham" asp-route-id="@item.MaSp" class="btn btn-outline-secondary">Chi tiết</a><a asp-action="AddToCart" asp-controller="GioHang" asp-route-mahh="@item.MaSp" asp-route-sl="1" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ</a></p>
+                                        </div>
+                                        <!-- /.text-->
+                                    </div>
+                                    <!-- /.product            -->
+                                </div>
+                            }
+                        }
+
+                    }
+                    <!-- /.products-->
+                </div>
+                <nav class="justify-content-center d-flex">
+                    <ul class="page-item">
+                        @await this.Component.InvokeAsync("Pager", new { pagingList = this.Model, @class = "page-item" })
+                    </ul>
+                </nav>
+            </div>
+            <!-- /.col-lg-9-->
+        </div>
+    </div>
+</div>

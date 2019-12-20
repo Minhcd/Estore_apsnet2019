@@ -1,0 +1,244 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .market-update-block {
+        padding: 2em 2em;
+        background: #999;
+    }
+
+        .market-update-block h3 {
+            color: #fff;
+            font-size: 2em;
+        }
+
+        .market-update-block h4 {
+            font-size: 1.2em;
+            color: #fff;
+            margin: 0.3em 0em;
+        }
+
+        .market-update-block p {
+            color: #fff;
+            font-size: 0.8em;
+            line-height: 1.8em;
+        }
+
+        .market-update-block.clr-block-1 {
+            background: #53d769;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+            transition: 0.5s all;
+            -webkit-transition: 0.5s all;
+            -moz-transition: 0.5s all;
+            -o-transition: 0.5s all;
+        }
+
+        .market-update-block.clr-block-2 {
+            background: #fc3158;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+            transition: 0.5s all;
+            -webkit-transition: 0.5s all;
+            -moz-transition: 0.5s all;
+            -o-transition: 0.5s all;
+        }
+
+        .market-update-block.clr-block-3 {
+            background: #147efb;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+            transition: 0.5s all;
+            -webkit-transition: 0.5s all;
+            -moz-transition: 0.5s all;
+            -o-transition: 0.5s all;
+        }
+
+        .market-update-block.clr-block-4 {
+            background: #2a2727;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+            transition: 0.5s all;
+            -webkit-transition: 0.5s all;
+            -moz-transition: 0.5s all;
+            -o-transition: 0.5s all;
+        }
+
+        .market-update-block.clr-block-1:hover {
+            background: #8b5c7e;
+            transition: 0.5s all;
+            -webkit-transition: 0.5s all;
+            -moz-transition: 0.5s all;
+            -o-transition: 0.5s all;
+        }
+
+        .market-update-block.clr-block-2:hover {
+            background: #8b5c7e;
+            transition: 0.5s all;
+            -webkit-transition: 0.5s all;
+            -moz-transition: 0.5s all;
+            -o-transition: 0.5s all;
+        }
+
+        .market-update-block.clr-block-3:hover {
+            background: #8b5c7e;
+            transition: 0.5s all;
+            -webkit-transition: 0.5s all;
+            -moz-transition: 0.5s all;
+            -o-transition: 0.5s all;
+        }
+
+        .market-update-block.clr-block-4:hover {
+            background: #8b5c7e;
+            transition: 0.5s all;
+            -webkit-transition: 0.5s all;
+            -moz-transition: 0.5s all;
+            -o-transition: 0.5s all;
+        }
+
+    .market-update-right i.fa.fa-users {
+        font-size: 3em;
+        color: #fff;
+        text-align: left;
+    }
+
+    .market-update-right i.fa.fa-eye {
+        font-size: 3em;
+        color: #fff;
+        text-align: left;
+    }
+
+    .market-update-right i.fa.fa-usd {
+        font-size: 3em;
+        color: #fff;
+        text-align: left;
+    }
+
+    .market-update-right i.fa.fa-shopping-cart {
+        font-size: 3em;
+        color: #fff;
+        text-align: left;
+    }
+
+    .market-update-left {
+        padding: 0px;
+    }
+
+    .market-update-right {
+        padding-left: 0;
+    }
+
+    .market-updates {
+        margin: 1.5em 0;
+    }
+
+    #content {
+        background-color: lightblue;
+    }
+</style>
+
+@{
+    EStoreContext db = new EStoreContext();
+    List<HoaDon> hoaDons_moi = db.HoaDon.Where(p => p.NgayDat == DateTime.Now.Date && p.MaTrangThai == 0).ToList();
+    List<HoaDon> hoaDons_ngay = db.HoaDon.Where(p => p.NgayDat == DateTime.Now.Date).ToList();
+    List<BinhLuan> binhluan_ngay = db.BinhLuan.Where(p => p.NgayBl == DateTime.Now.Date).ToList();
+    List<BinhLuan> binhluans = db.BinhLuan.ToList();
+    List<KhachHang> khachHangs = db.KhachHang.ToList();
+    List<HoaDon> hoaDons = db.HoaDon.ToList();
+    double hoaDons_doanhthu = Convert.ToDouble(db.HoaDon.Where(p => p.MaTrangThai == 1 && p.NgayDat == DateTime.Now.Date).Sum(p => p.TongTien));
+}
+<!-- //market-->
+<div class="market-updates">
+    <div class="col-md-3 market-update-gd">
+        <div class="market-update-block clr-block-1">
+            <div class="col-md-4 market-update-right">
+                <i class="fa fa-eye"> </i>
+            </div>
+            <div class="col-md-8 market-update-left">
+                <h4>Hóa đơn mới</h4>
+                <h3>@hoaDons_moi.Count()</h3>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <div class="col-md-3 market-update-gd">
+        <div class="market-update-block clr-block-3">
+            <div class="col-md-4 market-update-right">
+                <i class="fa fa-eye"> </i>
+            </div>
+            <div class="col-md-8 market-update-left">
+                <h4>Tổng hóa đơn ngày</h4>
+                <h3>@hoaDons_ngay.Count()</h3>
+
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <div class="col-md-3 market-update-gd">
+        <div class="market-update-block clr-block-2">
+            <div class="col-md-4 market-update-right">
+                <i class="fa fa-eye"> </i>
+            </div>
+            <div class="col-md-8 market-update-left">
+                <h4>Số bình luận trong ngày</h4>
+                <h3>@binhluan_ngay.Count()</h3>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 market-update-gd">
+        <div class="market-update-block clr-block-4">
+            <div class="col-md-4 market-update-right">
+                <i class="fa fa-eye"> </i>
+            </div>
+            <div class="col-md-8 market-update-left">
+                <h4>Tổng bình luận</h4>
+                <h3>@binhluans.Count()</h3>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <div class="clearfix"> </div>
+</div>
+<div class="market-updates">
+    <div class="col-md-3 market-update-gd">
+        <div class="market-update-block clr-block-1">
+            <div class="col-md-4 market-update-right">
+                <i class="fa fa-eye"> </i>
+            </div>
+            <div class="col-md-8 market-update-left">
+                <h4>Tổng số khách đăng kí</h4>
+                <h3>@khachHangs.Count()</h3>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <div class="col-md-3 market-update-gd">
+        <div class="market-update-block clr-block-3">
+            <div class="col-md-4 market-update-right">
+                <i class="fa fa-eye"> </i>
+            </div>
+            <div class="col-md-8 market-update-left">
+                <h4>Tổng số hóa đơn</h4>
+                <h3>@hoaDons.Count()</h3>
+
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <div class="col-md-6 market-update-gd">
+        <div class="market-update-block clr-block-2">
+            <div class="col-md-4 market-update-right">
+                <i class="fa fa-eye"> </i>
+            </div>
+            <div class="col-md-8 market-update-left">
+                <h4>Tổng doanh thu ngày</h4>
+                <h3>@hoaDons_doanhthu.ToString("#,##0") đ</h3>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <div class="clearfix"> </div>
+</div>
+<!-- //market-->

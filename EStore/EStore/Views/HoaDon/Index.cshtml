@@ -1,0 +1,102 @@
+﻿@model IEnumerable<EStore.Models.HoaDon>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Frontend.cshtml";
+}
+
+
+<div id="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- breadcrumb-->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                        <li aria-current="page" class="breadcrumb-item active">Hóa đơn của bạn</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <!--
+                *** CUSTOMER MENU ***
+                _________________________________________________________
+                -->
+                <div class="card sidebar-menu">
+                    <div class="card-header">
+                        <h3 class="h4 card-title">Khách Hàng</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul class="nav nav-pills flex-column"><a asp-action="Index" asp-controller="HoaDon" class="nav-link active"><i class="fa fa-list"></i>Hóa đơn của bạn</a><a asp-action="Index" asp-controller="YeuThich" class="nav-link"><i class="fa fa-heart"></i> Sản phẩm yêu thích</a><a asp-action="Index" asp-controller="KhachHang" class="nav-link"><i class="fa fa-user"></i>Tài khoản</a><a asp-action="DangXuat" asp-controller="DangNhap" class="nav-link"><i class="fa fa-sign-out"></i> Đăng xuất</a></ul>
+                    </div>
+                </div>
+                <!-- /.col-lg-3-->
+                <!-- *** CUSTOMER MENU END ***-->
+            </div>
+            <div id="customer-orders" class="col-lg-9">
+                <div class="box">
+                    <h1>Hóa đơn của bạn</h1>
+                    <p class="lead"></p>
+                    <p class="text-muted">Nếu bạn cần hỗ trợ, xin vui lòng <a asp-action="Contact" asp-controller="Home">Liên hệ</a> với chúng tôi, Chúng tôi luôn ở đây để hỗ trợ bạn 24/7.</p>
+                    <hr>
+                    @if (Context.Session.Get<KhachHang>
+                       ("TaiKhoan") != null)
+                    {
+                        KhachHang kh = Context.Session.Get<KhachHang>
+                            ("TaiKhoan");
+                        EStoreContext db = new EStoreContext();
+                        var dshd = db.HoaDon
+                        .Where(p => p.DienThoai == kh.DienThoai && p.HoTen == kh.HoTen && p.DiaChi == kh.DiaChi)
+                        .ToList();
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Mã hóa đơn</th>
+                                        <th>Ngày đặt</th>
+                                        <th>Người nhận</th>
+                                        <th>Tình trạng</th>
+                                        <th>Chi tiết</th>
+                                    </tr>
+                                </thead>
+
+                                @foreach (var item in dshd)
+                                {
+                                    <tbody>
+                                        <tr>
+                                            <th>#@item.MaHd</th>
+                                            <td>@item.NgayDat</td>
+                                            <td>@item.HoTen</td>
+                                            @if (item.MaTrangThai == 3)
+                                            {
+                                                <td><span class="badge badge-success">Đã giao hàng</span></td>
+                                            }
+                                            else if (item.MaTrangThai == 0)
+                                            {
+                                                <td><span class="badge badge-danger">Chờ xác nhận</span></td>
+                                            }
+                                            else if (item.MaTrangThai == 1)
+                                            {
+                                                <td><span class="badge badge-warning">Đang chuẩn bị hàng</span></td>
+                                            }
+                                            else if (item.MaTrangThai == 2)
+                                            {
+                                                <td><span class="badge badge-info">Đang giao hàng</span></td>
+                                            }
+                                            <td><a asp-action="ChiTiet" asp-controller="HoaDon" asp-route-id="@item.MaHd" class="btn btn-primary btn-sm">Xem</a></td>
+                                        </tr>
+                                    </tbody>
+                                }
+                            </table>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger" style="text-align:center"> <a asp-action="DangNhap" asp-controller="DangNhap">Bạn cần đăng nhập để xem hóa đơn mua hàng </a></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
